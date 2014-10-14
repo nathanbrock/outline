@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+#
+# outline
+#
+# http://www.github.com/nbrock/outline
+#
+# Useful script for debugging. Command creates an empty file the
+# size of the given argument.
+#
+# Example
+#
+# > outline 10M
+# > 10000000 bytes transferred in 0.013221 secs (756370981 bytes/sec
+# 10M_file.txt created
+#
+# Thanks to USER of Stackoverflow for the human to byte awk converter.
+# http://...
+
+_human_to_bytes()
+{
+  result=$(echo $1 | awk '{
+      ex = index("KMG", substr($1, length($1)))
+      val = substr($1, 0, length($1) - 1)
+      sum = $1
+    
+      if(ex>0)
+      {
+        prod = (val * (1000^ex))
+        sum = prod
+      }
+    }
+    END {
+      print sum
+    }'
+  )
+  echo $result
+}
+
+outline()
+{
+  local output=${2:-${1}_file.txt}
+  local numeric_input=${1//[^0-9]/}
+  
+  if [ "$numeric_input" != "$1" ]; then
+    numeric_input=$(_human_to_bytes $1)
+
+    if [ "$numeric_input" = "$1" ]; then
+      help
+      exit 0
+    fi
+  else
+    if [ -z "$2" ]; then
+      local output="$1K_file.txt"
+    fi
+  fi
+
+  dd if=/dev/zero of=${output} bs=${numeric_input} count=1
+  
+  if [ $? -eq 0 ]; then
+    echo "Create outline file '$output'"
+  else
+    echo "Unable to execute 'dd' command. Please review."
+  fi
+}
+
+if [ "$BASH_SOURCE" == "$0" ]; then
+  # Prints the help text for outline.
+  help()
+  {
+    local outline=$(basename $0)
+    cat <<EOF
+
+    USAGE:
+      $bitvoid [-h|--help] NUMERIC_VALUE[K/M/G]
+
+    EXAMPLES:
+      $outline 2M
+      $outline 10G block.txt
+      echo 20M | $outline
+EOF
+  }
+  
+  if { [ -z "$1" ] && [ -t 0 ] ; } || [ "$1" == '-h' ] || [ "$1" == '--help' ]
+  then
+    help
+    exit 0
+  fi
+  
+  # Start!
+  outline ${@:-`cat`}
+fi
