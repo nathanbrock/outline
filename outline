@@ -57,7 +57,7 @@ outline()
   dd if=/dev/zero of=${output} bs=${numeric_input} count=1
   
   if [ $? -eq 0 ]; then
-    echo "Create outline file '$output'"
+    echo "Created outline file '$output'"
   else
     echo "Unable to execute 'dd' command. Please review."
   fi
