@@ -13,8 +13,11 @@
 # > 10000000 bytes transferred in 0.013221 secs (756370981 bytes/sec
 # 10M_file.txt created
 #
-# Thanks to USER of Stackoverflow for the human to byte awk converter.
-# http://...
+# Thanks to Dennis Williamson of ServerFault for the human to byte conversion code.
+# http://serverfault.com/questions/237412/handy-parsing-for-numbers-with-unit-suffixes
+#
+# and a lot of interesting tid-bits from @holmans spark
+# https://github.com/holman/spark
 
 _human_to_bytes()
 {
