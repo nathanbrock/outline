@@ -74,7 +74,7 @@ if [ "$BASH_SOURCE" == "$0" ]; then
     cat <<EOF
 
     USAGE:
-      $bitvoid [-h|--help] NUMERIC_VALUE[K/M/G]
+      $outline [-h|--help] NUMERIC_VALUE[K/M/G]
 
     EXAMPLES:
       $outline 2M

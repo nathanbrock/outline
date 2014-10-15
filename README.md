@@ -42,7 +42,7 @@ Run ```outline -h``` for some in-terminal help.
 › ./outline -h
 
     USAGE:
-       [-h|--help] NUMERIC_VALUE[K/M/G]
+       outline [-h|--help] NUMERIC_VALUE[K/M/G]
 
     EXAMPLES:
       outline 2M
